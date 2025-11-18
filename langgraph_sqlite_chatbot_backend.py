@@ -70,7 +70,7 @@ def calculator(a: float, b: float, operation: str) -> dict:
 @tool
 def get_stock_price(symbol: str) -> dict:
     """Get latest stock price using Alpha Vantage (free tier)"""
-    api_key = os.getenv("ALPHA_VANTAGE_KEY", "K3K571E7USH1KRBF")
+    api_key = os.getenv("ALPHA_VANTAGE_KEY", "")
     url = (
         "https://www.alphavantage.co/query"
         f"?function=TIME_SERIES_INTRADAY&symbol={symbol}"
