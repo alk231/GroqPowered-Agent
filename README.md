@@ -1,6 +1,6 @@
 🚀 GroqPowered-Agent
 A Fast, Tool-Using AI Agent Built with Groq + LangGraph + MCP
-<p align="center"> <img src="/mnt/data/141177f6-d736-44e0-b30f-50f0d160c5e3.png" width="85%" /> </p> <p align="center"> <b>Ultra-fast. Persistent. MCP-powered. Fully customizable.</b><br> Build AI assistants that use tools like weather, expenses, search, and more. </p>
+<p align="center"> <img width="1246" height="850" alt="image" src="https://github.com/user-attachments/assets/294e376f-843b-4fd8-b41a-425074c7b79b" /> </p> <p align="center"> <b>Ultra-fast. Persistent. MCP-powered. Fully customizable.</b><br> Build AI assistants that use tools like weather, expenses, search, and more. </p>
 ✨ Highlights
 🔥 Blazing Fast Groq LLM
 
