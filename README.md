@@ -1,113 +1,120 @@
-GroqPowered-Agent
+🚀 GroqPowered-Agent
+A Fast, Tool-Using AI Agent Built with Groq + LangGraph + MCP
+<p align="center"> <img src="/mnt/data/141177f6-d736-44e0-b30f-50f0d160c5e3.png" width="85%" /> </p> <p align="center"> <b>Ultra-fast. Persistent. MCP-powered. Fully customizable.</b><br> Build AI assistants that use tools like weather, expenses, search, and more. </p>
+✨ Highlights
+🔥 Blazing Fast Groq LLM
 
-GroqPowered-Agent is a fully local, persistent, tool-using AI assistant built with:
+Powered by the openai/gpt-oss-120b model running on Groq’s ultra-fast inference engine.
 
-LangGraph for stateful agent workflows
+🧩 Tool-Calling Like ChatGPT
 
-Groq LLMs for ultra-fast inference
+Uses LangChain + MCP to run tools safely:
 
-Streamlit for a clean chat UI
+Weather (adhikasp)
 
-SQLite for chat persistence
+Real-time Stock Prices
 
-MCP (Model Context Protocol) to connect external tools
+Expense Tracker
 
-Weather, Expense Tracker, Search, Stocks and Custom Tools
+DuckDuckGo Search
 
-This project demonstrates how to build a production-grade multimodal assistant that can think, call tools, wait for results, and reply naturally — similar to ChatGPT tool-calling architecture.
+Custom MCP servers
 
-📸 Screenshot
-<img width="1777" height="859" alt="image" src="https://github.com/user-attachments/assets/88cb49be-ba9e-4362-8ef2-87f7fc62944b" />
+💾 Persistent Chat (SQLite)
 
+All conversations are stored in chatbot.db, restored elegantly through the UI.
 
-🚀 Features
-✅ 1. Real Chat-Like UI (Streamlit)
+🖥️ Streamlit UI
 
-Clean and minimal chat layout
+Smooth chat experience
 
-User & Assistant bubbles
+Auto conversation titles
 
-Automatic conversation titles
+Sidebar for browsing old chats
 
-Sidebar for saved threads
+Live streaming responses
 
-Persistent chat history
+Loading indicators for tool execution
 
-✅ 2. Fast Groq-Powered LLM
+Clean assistant/user message bubbles
 
-Uses openai/gpt-oss-120b via Groq's blazing-fast inference engine.
+🛠️ Production-Grade Architecture
 
-✅ 3. Tool Calling (LangChain + MCP)
+Thread-safe async tool execution
 
-The agent can call tools only when needed, get the results, then continue reasoning.
-
-Integrated tools include:
-
-Category	Tool	Description
-Local	Calculator	Add/Subtract/Multiply/Divide
-Local	DuckDuckGo Search	General web lookup
-Local	Stock Price	Fetch real-time stock quotes
-MCP	Weather (adhikasp)	Hourly & daily weather forecast
-MCP	ExpenseTracker	Add/List expenses
-MCP	Remote Simple Server	Custom endpoints
-✅ 4. Tool Execution with Safe Threaded Async
-
-Handles async MCP tools on Windows correctly using:
-
-ThreadPoolExecutor
-
-Per-thread event loops
-
-Timeouts
-
-Clean failure messages
+Safe timeouts
 
 No recursion loops
 
-✅ 5. SQLite Checkpointing
+Automatic error handling
 
-Every conversation is saved into:
+Multi-server MCP support
 
-chatbot.db
+Custom agent workflow using LangGraph
 
-
-You never lose any messages even after restarting the app.
-
-📁 Project Structure
+📁 Folder Structure
 GroqPowered-Agent/
 │
-├── langgraph_sqlite_chatbot_backend.py   # Core LangGraph agent + MCP
-├── langgraph_sqlite_chatbot_frontend.py  # Streamlit UI
-├── chatbot.db                            # SQLite conversation history
-├── .env                                  # API keys
+├── langgraph_sqlite_chatbot_backend.py     # Backend: LangGraph + Groq + MCP
+├── langgraph_sqlite_chatbot_frontend.py    # Frontend: Streamlit UI
+├── chatbot.db                               # Persistent history
+├── .env                                     # API Keys
 ├── requirements.txt
 └── README.md
 
-⚙️ Architecture
-User → Streamlit UI
-       → LangGraph
-           → Groq LLM (ChatGroq)
-           → Tool Router
-               → Local Tools
-               → MCP Servers
-           ← Tool Results
-       ← Final AI Response
+⚙️ Architecture Overview
+               ┌───────────────────────────┐
+               │        Streamlit UI       │
+               └──────────────▲────────────┘
+                              │
+                              │ User Input
+                              │
+               ┌──────────────┴────────────┐
+               │        LangGraph Agent     │
+               └──────────────▲────────────┘
+                              │
+                         LLM Decides
+                 (call tool or answer directly)
+                              │
+           ┌─────────────────┴──────────────────┐
+           │                                    │
+     ┌─────▼──────┐                    ┌────────▼────────┐
+     │   Tools     │                    │    MCP Servers  │
+     │ Calculator  │                    │ Weather         │
+     │ DDG Search  │                    │ ExpenseTracker  │
+     │ StockPrice  │                    │ Remote Server   │
+     └─────▲───────┘                    └────────▲────────┘
+           │ Tool Output                        │
+           └────────────────────────────────────┘
+                              │
+                        Final AI Reply
 
+🧰 Available Tools
+🔧 Local Tools
 
-This creates a feedback loop:
+Calculator
 
-LLM decides to call a tool
+DuckDuckGo Search
 
-Tool executes (using async or HTTP)
+Stock Price Lookup
 
-ToolMessage returned
+🌐 MCP Tools
 
-LLM continues reasoning with the tool output
+Weather (hourly forecast)
 
-Result shown to user
+ExpenseTracker (add/list expenses)
 
-🛠️ Installation
-1. Clone repository
+Remote Simple Server
+
+Add unlimited external MCP servers
+
+MCP_SERVERS["my-server"] = {
+    "transport": "streamable_http",
+    "url": "https://my-server.com/mcp"
+}
+
+📦 Installation
+1. Clone the repository
 git clone https://github.com/youruser/GroqPowered-Agent.git
 cd GroqPowered-Agent
 
@@ -122,95 +129,85 @@ ALPHA_VANTAGE_KEY=your_stock_api_key
 4. Run the app
 streamlit run langgraph_sqlite_chatbot_frontend.py
 
-5. Optional: Make MCP tools work on Windows
+5. Optional (Windows MCP Support)
 
-Install uvx:
+Install uvx to run weather server:
 
 pip install uv
 
 
-Set full path (Windows requirement):
+Set path:
 
 UVX_PATH="C:/Users/DELL/AppData/Local/Programs/Python/Python311/Scripts/uvx.exe"
 
-🧠 How the Agent Works
-1. Chat node
+🧠 How It Works
+1. Chat Node
 
-Runs Groq LLM, optionally producing tool_calls.
+Sends messages + history to Groq LLM
 
-2. Tool node
+LLM decides whether to call a tool
 
-Executes all tool calls:
+2. Tool Node
 
-Async supported (ainvoke)
+Executes tools in safe thread pool
 
-Sync supported (invoke, callables)
+Supports async .ainvoke()
 
-Thread executor (safe for Windows)
+Supports sync .invoke()
 
-Automatic JSON wrapping
+Graceful timeout handling
 
-Error-safe fallback into SystemMessage (prevents infinite graph loops)
+3. Recursion Safety
 
-3. Recursion-safe logic
+No infinite loops
 
-Stops tool loops using:
+ToolMessages are not restored into history
 
-Proper END routing
+System messages filtered out
 
-Avoids storing tool messages in chat history
+4. Smooth UI
 
-Filters out tool-related messages on UI load
+Loader indicators while tools run
 
-🧰 Available Tools
-Local Tools
+Streaming assistant replies
 
-Calculator
-
-DuckDuckGo Search
-
-Stock Price Lookup
-
-MCP Tools
-
-Weather (adhikasp)
-
-ExpenseTracker
-
-Remote Simple Server
-
-Add any MCP server:
-
-MCP_SERVERS["my-server"] = {
-    "transport": "streamable_http",
-    "url": "https://my-server.com/mcp"
-}
+Beautiful UI flow like ChatGPT
 
 📝 Example Commands
 
-Try:
+Try these:
 
-What is the weather in Jamshedpur?
+What’s the weather in Korba for the next few hours?
 
-Add an expense of 200 rupees in food today.
+Add an expense of ₹150 in travel.
 
 Show my expenses this month.
 
-What's the stock price of Tesla and write a short analysis?
+What is the stock price of Tesla and give a short analysis?
+
+Search latest news about Indian Space Research.
 
 🎯 Goals of This Project
 
-Show a real production-ready LangGraph agent
+Build a real-world LangGraph agent
 
-Handle MCP tools properly on Windows
+Show how MCP tools integrate with Groq
 
-Stream responses like ChatGPT
+Provide a template for production AI chatbots
 
-Store conversation history
+Make the tool execution rock-solid even on Windows
 
-Provide clean developer experience
+Deliver a fast and clean user experience
 
-👨‍💻 Contributing
+🤝 Contributing
 
-Pull requests are welcome.
-You can add new tools, MCP servers, or improve UI.
+Pull requests are welcome!
+You can contribute by:
+
+Adding new MCP servers
+
+Creating new tools
+
+Improving UI
+
+Enhancing the agent logic
